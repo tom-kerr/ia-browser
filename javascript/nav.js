@@ -46,12 +46,12 @@ function home(action) {
 	    newSession.capacity =  10;
 	}
 	
-	constructDOM();
+	constructDoc();
 	drawGrid();     
     }
 }
 
-function constructDOM() {
+function constructDoc() {
     
     for (var i=0; i < newSession.entries.length; i++) { 
 	var body = document.body;

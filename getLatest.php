@@ -55,10 +55,14 @@ function cook_string($zone, $contributor, $collections, $page, $num) {
 
 function retrieve_identifiers($url) {
   $XML = file_get_contents($url);
+  if (!$XML) {
+    echo "Server Error.";
+    return;
+  }
   $handle = fopen("XML.xml", 'w');
   fwrite($handle, $XML);
   $dom = new DOMDocument();
-  $dom -> load("XML.xml");
+  $dom->load("XML.xml");
   $dom->formatOutput = true;
   $dom->preserveWhiteSpace = false;
   $xpath = new DOMXPath($dom);
@@ -73,6 +77,7 @@ function retrieve_identifiers($url) {
   $xpath = new DOMXPath($dom);
   $query = "/response/result";
   $entries = $xpath->query($query);
+  $var = null;
   foreach($entries as $page) 
     $var = $page->getAttribute('numFound');
   if ($var==0) {

@@ -53,7 +53,7 @@ function Session() {
 	    '...</span?<h2></td></div></div>';
 	document.body.appendChild(init);
 	new Effect.Appear(init);
-	var url = '/interactive/getCollections.php'; 
+	var url = '/ia-browser/getCollections.php'; 
 	params = 'zone=' + session.zone + '&w='+w+ '&h='+h;
 	new Ajax.Request(url, 
 			 { method:'get',

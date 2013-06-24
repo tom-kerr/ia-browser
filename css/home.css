@@ -223,6 +223,10 @@ div.details {
     z-index:12;
 }
 
+table.metadata {
+    font-size: 22;
+}
+
 b.metaField {
     color:#698B69;
 }

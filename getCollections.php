@@ -14,7 +14,14 @@ class Env {
 Env::$zone = $_REQUEST['zone'];
 Env::$window_width = $_REQUEST['w'];
 Env::$window_height = $_REQUEST['h'];
-Env::$logo_dir .= getcwd()."/logos/zones/".Env::$zone;    
+$logo_dir = getcwd()."/logos";
+if (!is_dir($logo_dir)) 
+  mkdir($logo_dir, 0774);
+if (!is_dir($logo_dir."/zones"))
+  mkdir($logo_dir."/zones", 0774);
+Env::$logo_dir .= $logo_dir."/zones/".Env::$zone;    
+if (!is_dir(Env::$logo_dir)) 
+  mkdir(Env::$logo_dir, 0774);
 
 $raw_data = get_raw_collection_data();
 $entries = [];
@@ -98,7 +105,7 @@ function get_logos($entries) {
 function download_logos($entries) {
   $count = count($entries["entries"]);
   foreach($entries["entries"] as $con_key => $contributor) { 
-    error_log("DOWNLOADING LOGO -----> $con_key of $count ".$contributor["contributor"]);
+    //error_log("DOWNLOADING LOGO -----> $con_key of $count ".$contributor["contributor"]);
     foreach($contributor["collections"] as $col_key => $collections) {
       $collection = explode(';', $collections);
       $url_prefix = "http://www.archive.org/download";
@@ -109,16 +116,14 @@ function download_logos($entries) {
 	  $tmp = explode('>', $match);
 	  if (array_key_exists(1, $tmp)) {
 	    $logo_url = $url_prefix.'/'.$collection[0].'/'.$tmp[1];
-	    error_log($logo_url);
+	    //error_log($logo_url);
 	    $filename = explode(".",$tmp[1]);
 	    $name = explode(' ', $contributor["contributor"]);
 	    $name = implode('_', $name);
-	    error_log($name);
+	    //error_log($name);
 	    $ext  = $filename[count($filename)-1];
 	    $logo_file = Env::$logo_dir.'/'.$name.'.'.$ext;
 	    if ( $ext=="jpeg" || $ext=="jpg" || $ext=="gif" || $ext=="png") {
-	      if (!is_dir(Env::$logo_dir)) 
-		exec('mkdir '.Env::$logo_dir);
 	      if (!file_exists($logo_file)) {
 		$logo = file_get_contents($logo_url);
 		if ($logo) {
@@ -149,6 +154,7 @@ function optimize_logo_size($logo_file) {
     if (($dimensions[0]>Env::$max_width  && ($dimensions[0]>0 && $dimensions[0]!=null)) ||
 	($dimensions[1]>Env::$max_height && ($dimensions[1]>0 && $dimensions[1]!=null)) ) {
       $cmd = 'convert '.$logo_file.' -resize '.Env::$max_width.'x'.Env::$max_height.' '.$logo_file;
+      //error_log($cmd);
       system($cmd);
     }
   }

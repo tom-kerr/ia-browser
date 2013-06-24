@@ -11,5 +11,6 @@ This was a quick and dirty prototype of an interactive display allowing one to e
 
 ![] (/readme_imgs/ia-b4.png)
 
+![] (/readme_imgs/ia-b5.png)
 
  

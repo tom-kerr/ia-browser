@@ -462,6 +462,7 @@ function handleBook(id) {
     metaDetailsOverlay.appendChild(close);
     var detailsTable = document.createElement('div');
     var table = document.createElement('table');
+    table.setAttribute("class", "metadata")
     table.style.overflow = 'auto';
     table.style.color = '#A39480';
     detailsTable.appendChild(table);
